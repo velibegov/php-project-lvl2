@@ -1,0 +1,26 @@
+{
+  "name": "hexlet/code",
+  "description": "difference analyzer",
+  "type": "project",
+  "require": {
+    "docopt/docopt": "^1.0",
+    "funct/funct": "^1.5",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ruslan",
+      "email": "velibegov@mail.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Php\\Project\\Lvl2\\": "src"
+    },
+		"files": [
+		"src/JsonFileComparator.php"
+	]
+  }
+}
