@@ -8,10 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Install
+        run: make install
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Run Linter
+        run: make lint
         uses: github/super-linter@v3
         env:
           DEFAULT_BRANCH: main
