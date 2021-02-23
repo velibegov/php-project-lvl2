@@ -3,23 +3,17 @@ name: Linter
 on: push
 
 jobs:
-  lint:
-    name: Lint code base
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
       - name: Install
         run: make install
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run Linter
+      - name: Run linter
         run: make lint
-        uses: github/super-linter@v3
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
