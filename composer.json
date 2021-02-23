@@ -15,6 +15,10 @@
       "email": "velibegov@mail.ru"
     }
   ],
+    "scripts": {
+		"phpcs": "./vendor/bin/phpcs",
+		"test": "phpunit"
+  },
   "autoload": {
     "psr-4": {
       "Php\\Project\\Lvl2\\": "src"
@@ -22,5 +26,9 @@
 		"files": [
 		"src/JsonFileComparator.php"
 	]
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "*",
+    "phpunit/phpunit": "^9.5"
   }
 }

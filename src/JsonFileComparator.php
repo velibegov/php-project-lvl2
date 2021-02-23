@@ -4,14 +4,14 @@ namespace Php\Project\Lvl2;
 
 use Docopt\Response;
 
-function run(Response $args): void
+function run(Response $args): string
 {
     $firstFilePath = $args['<firstFile>'];
     $secondFilePath = $args['<secondFile>'];
-    genDiff($firstFilePath, $secondFilePath);
+    return genDiff($firstFilePath, $secondFilePath);
 }
 
-function genDiff(string $firstFilePath, string $secondFilePath)
+function genDiff(string $firstFilePath, string $secondFilePath): string
 {
     $firstFileContent = file_get_contents($firstFilePath);
     $secondFileContent = file_get_contents($secondFilePath);
@@ -20,25 +20,13 @@ function genDiff(string $firstFilePath, string $secondFilePath)
     $secondFileContentDecoded = json_decode($secondFileContent, true);
 
     $intersections = array_uintersect_uassoc(
-        $firstFileContentDecoded, $secondFileContentDecoded, function ($a, $b) {
-        return $a <=> $b;
-    }, function ($a, $b) {
-        return $a <=> $b;
-    });
+        $firstFileContentDecoded, $secondFileContentDecoded, fn($a, $b) => $a <=> $b, fn($a, $b) => $a <=> $b);
 
     $firstDiffSecond = array_udiff_uassoc(
-        $firstFileContentDecoded, $secondFileContentDecoded, function ($a, $b) {
-        return $a <=> $b;
-    }, function ($a, $b) {
-        return $a <=> $b;
-    });
+        $firstFileContentDecoded, $secondFileContentDecoded, fn($a, $b) => $a <=> $b, fn($a, $b) => $a <=> $b);
 
     $secondDiffFirst = array_udiff_uassoc(
-        $secondFileContentDecoded, $firstFileContentDecoded, function ($a, $b) {
-        return $a <=> $b;
-    }, function ($a, $b) {
-        return $a <=> $b;
-    });
+        $secondFileContentDecoded, $firstFileContentDecoded, fn($a, $b) => $a <=> $b, fn($a, $b) => $a <=> $b);
 
     $changed = [];
     array_walk($firstDiffSecond, function ($value, $key) use (&$changed) {
@@ -73,10 +61,13 @@ function genDiff(string $firstFilePath, string $secondFilePath)
             $result .= "${key}: ${value}" . PHP_EOL;
         }
     });
-    print_r("{" . PHP_EOL . $result . "}" . PHP_EOL);
+    return "{" . PHP_EOL . $result . "}" . PHP_EOL;
 }
 
 
 /*print_r(genDiff(
     'C:\Projects\php-project-lvl2\tests\fixtures\file1.json',
-    'C:\Projects\php-project-lvl2\tests\fixtures\file2.json'));*/
+    'C:\Projects\php-project-lvl2\tests\fixtures\file2.json'));
+print_r(genDiff(
+    'C:\Projects\php-project-lvl2\tests\fixtures\file2.json',
+    'C:\Projects\php-project-lvl2\tests\fixtures\file1.json'));*/
