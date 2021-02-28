@@ -56,12 +56,12 @@ function genDiff(string $firstFilePath, string $secondFilePath): string
             $value == ''? $value = 'false' : $value = 'true';
         }
         if ($key[0] != '-' && $key[0] != '+') {
-            $result .= "  ${key}: ${value}" . PHP_EOL;
+            $result .= "  ${key}: ${value}" . "\n";
         } else {
-            $result .= "${key}: ${value}" . PHP_EOL;
+            $result .= "${key}: ${value}" . "\n";
         }
     });
-    return "{" . PHP_EOL . $result . "}" . PHP_EOL;
+    return "{" . "\n" . $result . "}";
 }
 
 
