@@ -2,9 +2,7 @@
 
 namespace Php\Project\Lvl2;
 
-use Docopt\Response;
-
-function run(Response $args): string
+function run(\Docopt\Response $args): string
 {
     $firstFilePath = $args['<firstFile>'];
     $secondFilePath = $args['<secondFile>'];
@@ -20,13 +18,25 @@ function genDiff(string $firstFilePath, string $secondFilePath): string
     $secondFileContentDecoded = json_decode($secondFileContent, true);
 
     $intersections = array_uintersect_uassoc(
-        $firstFileContentDecoded, $secondFileContentDecoded, fn($a, $b) => $a <=> $b, fn($a, $b) => $a <=> $b);
+        $firstFileContentDecoded,
+        $secondFileContentDecoded,
+        fn($a, $b) => $a <=> $b,
+        fn($a, $b) => $a <=> $b
+    );
 
     $firstDiffSecond = array_udiff_uassoc(
-        $firstFileContentDecoded, $secondFileContentDecoded, fn($a, $b) => $a <=> $b, fn($a, $b) => $a <=> $b);
+        $firstFileContentDecoded,
+        $secondFileContentDecoded,
+        fn($a, $b) => $a <=> $b,
+        fn($a, $b) => $a <=> $b
+    );
 
     $secondDiffFirst = array_udiff_uassoc(
-        $secondFileContentDecoded, $firstFileContentDecoded, fn($a, $b) => $a <=> $b, fn($a, $b) => $a <=> $b);
+        $secondFileContentDecoded,
+        $firstFileContentDecoded,
+        fn($a, $b) => $a <=> $b,
+        fn($a, $b) => $a <=> $b
+    );
 
     $changed = [];
     array_walk($firstDiffSecond, function ($value, $key) use (&$changed) {
@@ -53,7 +63,7 @@ function genDiff(string $firstFilePath, string $secondFilePath): string
     $result = '';
     array_walk($diffData, function ($value, $key) use (&$result) {
         if (is_bool($value)) {
-            $value == ''? $value = 'false' : $value = 'true';
+            $value == '' ? $value = 'false' : $value = 'true';
         }
         if ($key[0] != '-' && $key[0] != '+') {
             $result .= "  ${key}: ${value}" . "\n";
@@ -63,11 +73,3 @@ function genDiff(string $firstFilePath, string $secondFilePath): string
     });
     return "{" . "\n" . $result . "}";
 }
-
-
-/*print_r(genDiff(
-    'C:\Projects\php-project-lvl2\tests\fixtures\file1.json',
-    'C:\Projects\php-project-lvl2\tests\fixtures\file2.json'));
-print_r(genDiff(
-    'C:\Projects\php-project-lvl2\tests\fixtures\file2.json',
-    'C:\Projects\php-project-lvl2\tests\fixtures\file1.json'));*/

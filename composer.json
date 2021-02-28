@@ -21,8 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Php\\Project\\Lvl2\\": "src",
-	  "Php\\Project\\Lvl2\\": "tests"
+      "Php\\Project\\Lvl2\\": "src"
     },
 		"files": [
 		"src/JsonFileComparator.php"
@@ -30,6 +29,7 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "phpstan/phpstan": "^0.12.79"
   }
 }

@@ -3,7 +3,6 @@
 namespace Php\Project\Lvl2;
 
 use PHPUnit\Framework\TestCase;
-use function Php\Project\Lvl2\genDiff;
 
 class JsonFileComparatorTest extends TestCase
 {
@@ -12,11 +11,11 @@ class JsonFileComparatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->firstFilePath = __DIR__.'/fixtures/file1.json';
-        $this->secondFilePath = __DIR__.'/fixtures/file2.json';
+        $this->firstFilePath = __DIR__ . '/fixtures/file1.json';
+        $this->secondFilePath = __DIR__ . '/fixtures/file2.json';
     }
 
-    public function testGenDiff()
+    public function testGenDiff(): void
     {
         $expected1 = '{
 - follow: false
