@@ -18,4 +18,9 @@ jobs:
       - name: Run linter
         run: make lint
       - name: Run tests
-        run: make test
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          GEN_DIFF_SECRET: ${{ secrets.GEN_DIFF_SECRET }}
+        with:
+          coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+          debug: true
