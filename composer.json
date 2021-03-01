@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Php\\Project\\Lvl2\\": "src"
+      "Php\\Project\\Lvl2\\": ["src/", "tests/"]
     },
 		"files": [
 		"src/JsonFileComparator.php"

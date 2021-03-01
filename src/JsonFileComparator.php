@@ -2,7 +2,13 @@
 
 namespace Php\Project\Lvl2;
 
-function run(\Docopt\Response $args): string
+use Docopt\Response;
+
+/**
+ * @param Response<array> $args
+ * @return string
+ */
+function run(Response $args): string
 {
     $firstFilePath = $args['<firstFile>'];
     $secondFilePath = $args['<secondFile>'];
@@ -11,11 +17,15 @@ function run(\Docopt\Response $args): string
 
 function genDiff(string $firstFilePath, string $secondFilePath): string
 {
+    $firstFileContentDecoded = '';
+    $secondFileContentDecoded = '';
     $firstFileContent = file_get_contents($firstFilePath);
     $secondFileContent = file_get_contents($secondFilePath);
 
-    $firstFileContentDecoded = json_decode($firstFileContent, true);
-    $secondFileContentDecoded = json_decode($secondFileContent, true);
+    if (is_string($firstFileContent) && is_string($secondFileContent)) {
+        $firstFileContentDecoded = json_decode($firstFileContent, true);
+        $secondFileContentDecoded = json_decode($secondFileContent, true);
+    }
 
     $intersections = array_uintersect_uassoc(
         $firstFileContentDecoded,
