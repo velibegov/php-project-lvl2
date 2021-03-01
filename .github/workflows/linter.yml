@@ -20,7 +20,7 @@ jobs:
       - name: Run tests
         uses: paambaati/codeclimate-action@v2.6.0
         env:
-          GEN_DIFF_SECRET: ${{ secrets.GEN_DIFF_SECRET }}
+          MY_ENVIRONMENT: ${{ secrets.TEST_REPORTER_ID }}
         with:
           coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
           debug: true
