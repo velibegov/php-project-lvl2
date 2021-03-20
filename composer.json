@@ -15,23 +15,26 @@
       "email": "velibegov@mail.ru"
     }
   ],
-    "scripts": {
-		"phpcs": "./vendor/bin/phpcs",
-		"test": "phpunit"
+  "bin": [
+    "bin/gendiff"
+  ],
+  "scripts": {
+    "phpcs": "./vendor/bin/phpcs",
+    "test": "phpunit"
   },
   "autoload": {
     "psr-4": {
       "Differ\\Differ\\": "src/",
       "Tests\\": "tests/"
     },
-		"files": [
-        "src/Parsers.php",
-        "src/Formatters/Stylish.php",
-        "src/Formatters/Plain.php",
-        "src/Formatters/Json.php",
-		"src/DiffBuilder.php",
-		"src/Formatters.php"
-	]
+    "files": [
+      "src/Parsers.php",
+      "src/Formatters/Stylish.php",
+      "src/Formatters/Plain.php",
+      "src/Formatters/Json.php",
+      "src/DiffBuilder.php",
+      "src/Formatters.php"
+    ]
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
