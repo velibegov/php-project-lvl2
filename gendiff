@@ -4,7 +4,7 @@
 
 use function Php\Project\Lvl2\run;
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $doc = /** @lang text */
     <<<DOC
@@ -20,9 +20,7 @@ Options:
   -h --help                     Show this screen
   -v --version                  Show version
   --format <fmt>                Report format [default: stylish]
-
 DOC;
 
 $args = Docopt::handle($doc);
-
 print_r(run($args));

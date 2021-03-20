@@ -4,9 +4,9 @@
   "type": "project",
   "require": {
     "docopt/docopt": "^1.0",
-    "funct/funct": "^1.5",
     "ext-json": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "symfony/yaml": "^5.2"
   },
   "license": "MIT",
   "authors": [
@@ -21,10 +21,16 @@
   },
   "autoload": {
     "psr-4": {
-      "Php\\Project\\Lvl2\\": ["src/", "tests/"]
+      "Php\\Project\\Lvl2\\": "src/",
+      "Tests\\": "tests/"
     },
 		"files": [
-		"src/JsonFileComparator.php"
+        "src/Parsers.php",
+        "src/Formatters/Stylish.php",
+        "src/Formatters/Plain.php",
+        "src/Formatters/Json.php",
+		"src/DiffBuilder.php",
+		"src/Formatters.php"
 	]
   },
   "require-dev": {
