@@ -17,7 +17,7 @@ function toString($value): string
 
 function plainDiffFormat(array $differenceTree, string $fullPropertyName = ''): string
 {
-    $mapped = array_map(function ($value) use ($fullPropertyName) {
+    $mapped = array_map(function ($value) use ($fullPropertyName): string {
         empty($fullPropertyName) ? $fullPropertyName .= "{$value['key']}" : $fullPropertyName .= ".{$value['key']}";
         $propertyNameParts[] = $fullPropertyName;
         $propertyName = implode('.', $propertyNameParts);
