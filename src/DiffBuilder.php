@@ -2,8 +2,6 @@
 
 namespace Differ\Differ;
 
-use Docopt\Response;
-
 function genDiff(string $pathToFirstFile, string $pathToSecondFile, string $formatName = 'stylish'): string
 {
     $firstContent = fileParse($pathToFirstFile);
@@ -56,15 +54,6 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
             ];
         }
     }, $keys);
-    usort($differenceTree, fn($a, $b) => $a['key'] <=> $b['key']);
+    //usort($differenceTree, fn($a, $b) => $a['key'] <=> $b['key']);
     return $differenceTree;
-}
-
-function run(Response $args): string
-{
-    $params = argumentsParse($args);
-    $firstFilePath = $params['firstFilePath'];
-    $secondFilePath = $params['secondFilePath'];
-    $format = $params['--format'] ?? 'stylish';
-    return genDiff($firstFilePath, $secondFilePath, $format);
 }
