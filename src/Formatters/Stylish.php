@@ -2,7 +2,7 @@
 
 namespace Php\Project\Lvl2;
 
-function toString(mixed $value): string
+function toString($value): string
 {
     if ($value === null) {
         return 'null';
