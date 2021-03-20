@@ -54,6 +54,6 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
             ];
         }
     }, $keys);
-    //usort($differenceTree, fn($a, $b) => $a['key'] <=> $b['key']);
+    usort($differenceTree, fn($a, $b) => $a['key'] <=> $b['key']);
     return $differenceTree;
 }
