@@ -1,8 +1,8 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
-use function Differ\Plain\plainDiffFormat;
+use function Differ\Differ\Plain\plainDiffFormat;
 
 function getFormatter(string $formatterName, array $differenceTree): string
 {

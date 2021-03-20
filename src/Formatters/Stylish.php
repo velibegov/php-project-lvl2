@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
 /**
  * @param string|int|bool|null|object|array|float $value

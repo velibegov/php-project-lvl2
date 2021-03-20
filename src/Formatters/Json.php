@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ;
+namespace Differ\Differ;
 
 function jsonDiffFormat(array $differenceTree): string
 {
