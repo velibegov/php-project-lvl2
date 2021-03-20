@@ -65,6 +65,6 @@ function run(Response $args): string
     $params = argumentsParse($args);
     $firstFilePath = $params['firstFilePath'];
     $secondFilePath = $params['secondFilePath'];
-    $format = $params['format'] ?? 'stylish';
+    $format = $params['--format'] ?? 'stylish';
     return genDiff($firstFilePath, $secondFilePath, $format);
 }
