@@ -2,7 +2,7 @@
 
 <?php
 
-use function Php\Project\Lvl2\run;
+use function Differ\run;
 
 require_once __DIR__ . '/vendor/autoload.php';
 

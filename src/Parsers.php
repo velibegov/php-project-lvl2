@@ -1,6 +1,6 @@
 <?php
 
-namespace Php\Project\Lvl2;
+namespace Differ;
 
 use Docopt\Response;
 use Symfony\Component\Yaml\Yaml;
