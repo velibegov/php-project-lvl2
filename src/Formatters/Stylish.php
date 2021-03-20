@@ -2,7 +2,11 @@
 
 namespace Php\Project\Lvl2;
 
-function toString(bool|null|object|array|string|int $value): string
+/**
+ * @param string|int|bool|null|object|array|float $value
+ * @return string
+ */
+function toString($value): string
 {
     if ($value === null) {
         return 'null';
@@ -24,7 +28,12 @@ function getTypeIndent(string $type): string
     }
 }
 
-function stringifyValue(bool|null|object|array|string|int $value, int $depth): string
+/**
+ * @param string|int|bool|null|object|array|float $value
+ * @param int $depth
+ * @return string
+ */
+function stringifyValue($value, int $depth): string
 {
     if (!is_object($value)) {
         return toString($value);

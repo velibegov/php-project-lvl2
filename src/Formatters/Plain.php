@@ -3,10 +3,10 @@
 namespace Php\Project\Lvl2\Plain;
 
 /**
- * @param $value
+ * @param string|int|bool|null|object|array|float $value
  * @return string
  */
-function toString(bool|null|object|array|string|int $value): string
+function toString($value): string
 {
     is_object($value) ? $result = "[complex value]" : $result = var_export($value, true);
     if ($value === null) {
