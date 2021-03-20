@@ -12,6 +12,7 @@ class DiffBuilderTest extends TestCase
     protected string $secondFilePath;
     protected string $expectedStylishDiff;
     protected string $expectedPlainDiff;
+    protected string $expectedJsonDiff;
 
     public function setUp(): void
     {
@@ -19,11 +20,13 @@ class DiffBuilderTest extends TestCase
         $this->secondFilePath = __DIR__ . '/fixtures/file2.json';
         $this->expectedStylishDiff = file_get_contents(__DIR__ . '/fixtures/stylishDiff') ? : '';
         $this->expectedPlainDiff = file_get_contents(__DIR__ . '/fixtures/plainDiff') ? : '';
+        $this->expectedJsonDiff = file_get_contents(__DIR__ . '/fixtures/jsonDiff') ? : '';
     }
 
     public function testGenDiff(): void
     {
         $this->assertEquals($this->expectedStylishDiff, genDiff($this->firstFilePath, $this->secondFilePath));
         $this->assertEquals($this->expectedPlainDiff, genDiff($this->firstFilePath, $this->secondFilePath, 'plain'));
+        $this->assertEquals($this->expectedJsonDiff, genDiff($this->firstFilePath, $this->secondFilePath, 'json'));
     }
 }

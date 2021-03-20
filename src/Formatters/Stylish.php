@@ -2,7 +2,7 @@
 
 namespace Php\Project\Lvl2;
 
-function toString($value): string
+function toString(bool|null|object|array|string|int $value): string
 {
     if ($value === null) {
         return 'null';
@@ -24,7 +24,7 @@ function getTypeIndent(string $type): string
     }
 }
 
-function stringifyValue(mixed $value, int $depth): string
+function stringifyValue(bool|null|object|array|string|int $value, int $depth): string
 {
     if (!is_object($value)) {
         return toString($value);

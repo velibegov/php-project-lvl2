@@ -2,7 +2,11 @@
 
 namespace Php\Project\Lvl2\Plain;
 
-function toString(mixed $value): string
+/**
+ * @param $value
+ * @return string
+ */
+function toString(bool|null|object|array|string|int $value): string
 {
     is_object($value) ? $result = "[complex value]" : $result = var_export($value, true);
     if ($value === null) {
