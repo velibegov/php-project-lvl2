@@ -4,5 +4,9 @@ namespace Differ\Differ;
 
 function jsonDiffFormat(array $differenceTree): string
 {
-    return json_encode($differenceTree) ? : '';
+    if (is_string(json_encode($differenceTree))) {
+        return json_encode($differenceTree);
+    } else {
+        throw new \Exception('Impossible to encode into JSON');
+    }
 }

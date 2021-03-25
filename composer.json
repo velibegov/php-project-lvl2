@@ -6,7 +6,8 @@
     "docopt/docopt": "^1.0",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "symfony/yaml": "^5.2"
+    "symfony/yaml": "^5.2",
+    "mblarsen/arrgh": "^0.11.0"
   },
   "license": "MIT",
   "authors": [

@@ -7,7 +7,7 @@ function genDiff(string $pathToFirstFile, string $pathToSecondFile, string $form
     $firstContent = fileParse($pathToFirstFile);
     $secondContent = fileParse($pathToSecondFile);
     $differenceTree = makeDifferenceTree($firstContent, $secondContent);
-    return getFormatter($formatName, $differenceTree);
+    return formatDifference($formatName, $differenceTree);
 }
 
 function makeDifferenceTree(object $firstContent, object $secondContent): array
@@ -15,28 +15,26 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
     $merged = array_merge((array)$firstContent, (array)$secondContent);
     $keys = array_keys($merged);
     $differenceTree = array_map(function ($key) use ($firstContent, $secondContent) {
-        if (
-            property_exists($firstContent, $key) && property_exists($secondContent, $key) &&
-            is_object($firstContent->{$key}) && is_object($secondContent->{$key})
-        ) {
-            return [
-                'key' => $key,
-                'type' => 'parent',
-                'children' => makeDifferenceTree($firstContent->{$key}, $secondContent->{$key})
-            ];
-        }
-        if (!array_key_exists($key, (array)$secondContent)) {
+
+        if (!property_exists($secondContent, $key)) {
             return [
                 'key' => $key,
                 'value' => $firstContent->{$key},
                 'type' => 'removed'
             ];
         }
-        if (!array_key_exists($key, (array)$firstContent)) {
+        if (!property_exists($firstContent, $key)) {
             return [
                 'key' => $key,
                 'value' => $secondContent->{$key},
                 'type' => 'added'
+            ];
+        }
+        if (is_object($firstContent->{$key}) && is_object($secondContent->{$key})) {
+            return [
+                'key' => $key,
+                'type' => 'parent',
+                'children' => makeDifferenceTree($firstContent->{$key}, $secondContent->{$key})
             ];
         }
         if ($firstContent->{$key} === $secondContent->{$key}) {
@@ -45,7 +43,8 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
                 'value' => $firstContent->{$key},
                 'type' => 'unmodified'
             ];
-        } else {
+        }
+        if ($firstContent->{$key} !== $secondContent->{$key}) {
             return [
                 'key' => $key,
                 'oldValue' => $firstContent->{$key},
@@ -54,6 +53,5 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
             ];
         }
     }, $keys);
-    usort($differenceTree, fn($a, $b) => $a['key'] <=> $b['key']);
-    return $differenceTree;
+    return arr_usort($differenceTree, fn($value1, $value2) => $value1['key'] <=> $value2['key']);
 }

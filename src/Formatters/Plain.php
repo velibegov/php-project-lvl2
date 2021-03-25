@@ -8,7 +8,7 @@ namespace Differ\Differ\Plain;
  */
 function toString($value): string
 {
-    is_object($value) ? $result = "[complex value]" : $result = var_export($value, true);
+    $result = is_object($value) ? "[complex value]" : $result = var_export($value, true);
     if ($value === null) {
         $result = 'null';
     }
