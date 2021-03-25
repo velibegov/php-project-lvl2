@@ -15,10 +15,40 @@ function toString($value): string
     return $result;
 }
 
-function plainDiffFormat(array $differenceTree, array $propertyNameParts = []): string
+/*function plainDiffFormat(array $differenceTree, array $propertyNameParts = []): string
 {
     $mapped = array_map(function ($value) use ($propertyNameParts): string {
         $propertyNameParts[] = "{$value['key']}";
+        $propertyName = implode('.', $propertyNameParts);
+        switch ($value['type']) {
+            case 'parent':
+                return plainDiffFormat($value['children'], $propertyNameParts);
+            case 'modified':
+                $oldValue = toString($value['oldValue']);
+                $newValue = toString($value['newValue']);
+                $result = "Property '{$propertyName}' was updated. From {$oldValue} to {$newValue}";
+                break;
+            case 'removed':
+                $result = "Property '{$propertyName}' was removed";
+                break;
+            case 'added':
+                $added = toString($value['value']);
+                $result = "Property '{$propertyName}' was added with value: {$added}";
+                break;
+            default:
+                $result = "";
+                break;
+        }
+        return $result;
+    }, $differenceTree);
+    $filtered = array_filter($mapped, fn($item) => $item !== '');
+    return implode("\n", $filtered);
+}*/
+
+function plainDiffFormat(array $differenceTree, array $propertyNameParts = []): string
+{
+    $mapped = array_map(function ($value) use ($propertyNameParts): string {
+        $propertyNameParts = arr_push($propertyNameParts, "{$value['key']}");
         $propertyName = implode('.', $propertyNameParts);
         switch ($value['type']) {
             case 'parent':
