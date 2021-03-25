@@ -10,7 +10,7 @@ function toString($value): string
 {
     $result = is_object($value) ? "[complex value]" : $result = var_export($value, true);
     if ($value === null) {
-        $result = 'null';
+        return 'null';
     }
     return $result;
 }
@@ -18,7 +18,7 @@ function toString($value): string
 function plainDiffFormat(array $differenceTree, string $fullPropertyName = ''): string
 {
     $mapped = array_map(function ($value) use ($fullPropertyName): string {
-        empty($fullPropertyName) ? $fullPropertyName .= "{$value['key']}" : $fullPropertyName .= ".{$value['key']}";
+        $fullPropertyName === '' ? $fullPropertyName .= "{$value['key']}" : $fullPropertyName .= ".{$value['key']}";
         $propertyNameParts[] = $fullPropertyName;
         $propertyName = implode('.', $propertyNameParts);
         switch ($value['type']) {
