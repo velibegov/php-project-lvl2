@@ -45,10 +45,10 @@ function toString($value): string
     return implode("\n", $filtered);
 }*/
 
-function plainDiffFormat(array $differenceTree, array $propertyNameParts = []): string
+function plainDiffFormat(array $differenceTree, array $parts = []): string
 {
-    $mapped = array_map(function ($value) use ($propertyNameParts): string {
-        $propertyNameParts = arr_push($propertyNameParts, "{$value['key']}");
+    $mapped = array_map(function ($value) use ($parts): string {
+        $propertyNameParts = arr_push($parts, "{$value['key']}");
         $propertyName = implode('.', $propertyNameParts);
         switch ($value['type']) {
             case 'parent':
