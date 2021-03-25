@@ -53,7 +53,7 @@ function stringifyValue($value, int $depth): string
     }
     $indent = str_repeat(" ", $depth * 4 + 4);
     $bracketIndent = str_repeat(" ", $depth * 4);
-    $result = array_map(function ($key) use ($value, $depth, $indent) {
+    $result = array_map(function ($key) use ($value, $depth, $indent): string {
         $stringifiedValue = stringifyValue($value->{$key}, $depth + 1);
         return "{$indent}{$key}: {$stringifiedValue}";
     }, array_keys((array)$value));
@@ -62,7 +62,7 @@ function stringifyValue($value, int $depth): string
 
 function stylishDiffFormat(array $differenceTree, int $depth = 1): string
 {
-    $lines = array_map(function ($value) use ($depth) {
+    $lines = array_map(function ($value) use ($depth): string {
         switch ($value['type']) {
             case 'parent':
                 $children = stylishDiffFormat($value['children'], $depth + 1);

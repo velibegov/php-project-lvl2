@@ -15,15 +15,14 @@ function toString($value): string
     return $result;
 }
 
-function plainDiffFormat(array $differenceTree, string $fullPropertyName = ''): string
+function plainDiffFormat(array $differenceTree, array $propertyNameParts = []): string
 {
-    $mapped = array_map(function ($value) use ($fullPropertyName): string {
-        $fullPropertyName === '' ? $fullPropertyName .= "{$value['key']}" : $fullPropertyName .= ".{$value['key']}";
-        $propertyNameParts[] = $fullPropertyName;
+    $mapped = array_map(function ($value) use ($propertyNameParts): string {
+        $propertyNameParts[] = "{$value['key']}";
         $propertyName = implode('.', $propertyNameParts);
         switch ($value['type']) {
             case 'parent':
-                return plainDiffFormat($value['children'], $propertyName);
+                return plainDiffFormat($value['children'], $propertyNameParts);
             case 'modified':
                 $oldValue = toString($value['oldValue']);
                 $newValue = toString($value['newValue']);
@@ -33,8 +32,8 @@ function plainDiffFormat(array $differenceTree, string $fullPropertyName = ''): 
                 $result = "Property '{$propertyName}' was removed";
                 break;
             case 'added':
-                $value = toString($value['value']);
-                $result = "Property '{$propertyName}' was added with value: {$value}";
+                $added = toString($value['value']);
+                $result = "Property '{$propertyName}' was added with value: {$added}";
                 break;
             default:
                 $result = "";
@@ -42,6 +41,6 @@ function plainDiffFormat(array $differenceTree, string $fullPropertyName = ''): 
         }
         return $result;
     }, $differenceTree);
-    $filtered = array_filter($mapped, fn($item) => !empty($item));
+    $filtered = array_filter($mapped, fn($item) => $item !== '');
     return implode("\n", $filtered);
 }

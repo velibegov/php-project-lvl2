@@ -20,12 +20,7 @@ function fileRead(string $filePath)
 
 function fileParse(string $filePath): \stdClass
 {
-    $fileContent = '';
-    try {
-        $fileContent = fileRead($filePath);
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
+    $fileContent = fileRead($filePath);
     if (is_string($fileContent)) {
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         switch ($extension) {
