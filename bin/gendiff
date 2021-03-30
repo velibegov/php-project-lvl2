@@ -12,8 +12,7 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-$doc =
-    <<<DOC
+$doc = <<<DOC
 
 Generate diff
 

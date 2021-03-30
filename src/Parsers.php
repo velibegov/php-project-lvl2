@@ -2,40 +2,47 @@
 
 namespace Differ\Differ;
 
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * @param string $filePath
- * @return bool|string
- * @throws \Exception
+ * @return string
+ * @throws Exception
  */
-function fileRead(string $filePath)
+function fileRead(string $filePath): string
 {
     if (file_exists($filePath)) {
-        return file_get_contents($filePath);
+        $data = file_get_contents($filePath);
     } else {
-        throw new \Exception('File not exists ' . $filePath);
+        throw new Exception('File not exists ' . $filePath);
+    }
+    if (is_string($data)) {
+        return $data;
+    } else {
+        throw new Exception('Incorrect file content ' . $filePath);
     }
 }
 
-function fileParse(string $filePath): \stdClass
+function dataParse(string $data, string $extension): \stdClass
 {
-    $fileContent = fileRead($filePath);
-    if (is_string($fileContent)) {
-        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        switch ($extension) {
-            case 'json':
-                $parsed = json_decode($fileContent);
-                break;
-            case 'yml':
-            case 'yaml':
-                $parsed = Yaml::parse($fileContent, Yaml::PARSE_OBJECT_FOR_MAP);
-                break;
-            default:
-                throw new \Error('Unsupported file extension ' . $extension);
-        }
-    } else {
-        throw new \Exception('Unknown file content');
+    switch ($extension) {
+        case 'json':
+            $parsed = json_decode($data);
+            break;
+        case 'yml':
+        case 'yaml':
+            $parsed = Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP);
+            break;
+        default:
+            throw new \Error('Unsupported file extension ' . $extension);
     }
     return $parsed;
+}
+
+function getContent(string $filePath): \stdClass
+{
+    $data = fileRead($filePath);
+    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    return dataParse($data, $extension);
 }

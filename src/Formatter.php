@@ -2,18 +2,20 @@
 
 namespace Differ\Differ;
 
-use function Differ\Differ\Plain\plainDiffFormat;
-
 function formatDifference(string $formatterName, array $differenceTree): string
 {
     switch ($formatterName) {
         case 'plain':
-            return plainDiffFormat($differenceTree);
+            $formatted = Plain\format($differenceTree);
+            break;
         case 'json':
-            return jsonDiffFormat($differenceTree);
+            $formatted = Json\format($differenceTree);
+            break;
         case 'stylish':
-            return stylishDiffFormat($differenceTree);
+            $formatted = Stylish\format($differenceTree);
+            break;
         default:
             throw new \Exception('Unknown format ' . $formatterName);
     }
+    return $formatted;
 }

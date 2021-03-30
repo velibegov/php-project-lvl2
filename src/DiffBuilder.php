@@ -4,8 +4,8 @@ namespace Differ\Differ;
 
 function genDiff(string $pathToFirstFile, string $pathToSecondFile, string $formatName = 'stylish'): string
 {
-    $firstContent = fileParse($pathToFirstFile);
-    $secondContent = fileParse($pathToSecondFile);
+    $firstContent = getContent($pathToFirstFile);
+    $secondContent = getContent($pathToSecondFile);
     $differenceTree = makeDifferenceTree($firstContent, $secondContent);
     return formatDifference($formatName, $differenceTree);
 }
@@ -44,14 +44,12 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
                 'type' => 'unmodified'
             ];
         }
-        if ($firstContent->{$key} !== $secondContent->{$key}) {
-            return [
-                'key' => $key,
-                'oldValue' => $firstContent->{$key},
-                'newValue' => $secondContent->{$key},
-                'type' => 'modified'
-            ];
-        }
+        return [
+            'key' => $key,
+            'old' => $firstContent->{$key},
+            'new' => $secondContent->{$key},
+            'type' => 'modified'
+        ];
     }, $keys);
     return arr_usort($differenceTree, fn($value1, $value2) => $value1['key'] <=> $value2['key']);
 }

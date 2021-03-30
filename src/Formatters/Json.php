@@ -1,11 +1,12 @@
 <?php
 
-namespace Differ\Differ;
+namespace Differ\Differ\Json;
 
-function jsonDiffFormat(array $differenceTree): string
+function format(array $differenceTree): string
 {
-    if (is_string(json_encode($differenceTree))) {
-        return json_encode($differenceTree);
+    $encoded = json_encode($differenceTree);
+    if (is_string($encoded)) {
+        return $encoded;
     } else {
         throw new \Exception('Impossible to encode into JSON');
     }
