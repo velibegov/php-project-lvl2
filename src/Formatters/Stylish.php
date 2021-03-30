@@ -2,11 +2,11 @@
 
 namespace Differ\Differ\Stylish;
 
-define('INDENT', 'indent');
-define('BRACKET_INDENT', 'bracketIndent');
-define('INNER_INDENT', 'innerIndent');
-define('INNER_BRACKET_INDENT', 'innerBracketIndent');
-define('BASE_INDENT', ' ');
+const INDENT = 'indent';
+const BRACKET_INDENT = 'bracketIndent';
+const INNER_INDENT = 'innerIndent';
+const INNER_BRACKET_INDENT = 'innerBracketIndent';
+const BASE_INDENT = ' ';
 
 /**
  * @param string|int|bool|null|object|array|float $value
