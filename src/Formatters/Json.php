@@ -2,6 +2,11 @@
 
 namespace Differ\Differ\Json;
 
+/**
+ * @param array $differenceTree
+ * @return string
+ * @throws \Exception
+ */
 function format(array $differenceTree): string
 {
     $encoded = json_encode($differenceTree);

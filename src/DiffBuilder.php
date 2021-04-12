@@ -2,6 +2,13 @@
 
 namespace Differ\Differ;
 
+/**
+ * @param string $pathToFirstFile
+ * @param string $pathToSecondFile
+ * @param string $formatName
+ * @return string
+ * @throws \Exception
+ */
 function genDiff(string $pathToFirstFile, string $pathToSecondFile, string $formatName = 'stylish'): string
 {
     $firstContent = getContent($pathToFirstFile);
@@ -10,6 +17,11 @@ function genDiff(string $pathToFirstFile, string $pathToSecondFile, string $form
     return formatDifference($formatName, $differenceTree);
 }
 
+/**
+ * @param object $firstContent
+ * @param object $secondContent
+ * @return array
+ */
 function makeDifferenceTree(object $firstContent, object $secondContent): array
 {
     $merged = array_merge((array)$firstContent, (array)$secondContent);

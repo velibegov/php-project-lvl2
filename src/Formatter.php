@@ -2,6 +2,12 @@
 
 namespace Differ\Differ;
 
+/**
+ * @param string $formatterName
+ * @param array $differenceTree
+ * @return string
+ * @throws \Exception
+ */
 function formatDifference(string $formatterName, array $differenceTree): string
 {
     switch ($formatterName) {

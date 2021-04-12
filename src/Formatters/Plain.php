@@ -15,6 +15,11 @@ function toString($value): string
     return $result;
 }
 
+/**
+ * @param array $differenceTree
+ * @param array $parts
+ * @return string
+ */
 function format(array $differenceTree, array $parts = []): string
 {
     $mapped = array_map(function ($value) use ($parts): string {
