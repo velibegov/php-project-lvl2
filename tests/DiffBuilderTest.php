@@ -30,7 +30,6 @@ class DiffBuilderTest extends TestCase
 
     /**
      * @return array[]
-     * @throws \Exception
      */
     public function additionProvider(): array
     {
@@ -41,35 +40,59 @@ class DiffBuilderTest extends TestCase
         $this->stylishDiffFilePath = __DIR__ . '/fixtures/stylishDiff';
         $this->plainDiffFilePath = __DIR__ . '/fixtures/plainDiff';
         $this->jsonDiffFilePath = __DIR__ . '/fixtures/jsonDiff';
+
         $this->expectedStylishDiff = file_get_contents($this->stylishDiffFilePath) ?: '';
         $this->expectedPlainDiff = file_get_contents($this->plainDiffFilePath) ?: '';
         $this->expectedJsonDiff = file_get_contents($this->jsonDiffFilePath) ?: '';
 
-        $this->actualJsonStylishDiff = genDiff($this->firstJsonFilePath, $this->secondJsonFilePath);
-        $this->actualJsonPlainDiff = genDiff($this->firstJsonFilePath, $this->secondJsonFilePath, 'plain');
-        $this->actualJsonJsonDiff = genDiff($this->firstJsonFilePath, $this->secondJsonFilePath, 'json');
-
-        $this->actualYamlStylishDiff = genDiff($this->firstYamlFilePath, $this->secondYamlFilePath);
-        $this->actualYamlPlainDiff = genDiff($this->firstYamlFilePath, $this->secondYamlFilePath, 'plain');
-        $this->actualYamlJsonDiff = genDiff($this->firstYamlFilePath, $this->secondYamlFilePath, 'json');
-
         return [
-            'testJsonStylishDiff' => [$this->actualJsonStylishDiff, $this->expectedStylishDiff],
-            'testJsonPlainDiff' => [$this->actualJsonPlainDiff, $this->expectedPlainDiff],
-            'testJsonJsonDiff' => [$this->actualJsonJsonDiff, $this->expectedJsonDiff],
-            'testYamlStylishDiff' => [$this->actualYamlStylishDiff, $this->expectedStylishDiff],
-            'testYamlPlainDiff' => [$this->actualYamlPlainDiff, $this->expectedPlainDiff],
-            'testYamlJsonDiff' => [$this->actualYamlJsonDiff, $this->expectedJsonDiff]
+            'testJsonStylishDiff' => [
+                $this->firstJsonFilePath,
+                $this->secondJsonFilePath,
+                'stylish',
+                $this->expectedStylishDiff
+            ],
+            'testJsonPlainDiff' => [
+                $this->firstJsonFilePath,
+                $this->secondJsonFilePath,
+                'plain',
+                $this->expectedPlainDiff
+            ],
+            'testJsonJsonDiff' => [
+                $this->firstJsonFilePath,
+                $this->secondJsonFilePath,
+                'json',
+                $this->expectedJsonDiff
+            ],
+            'testYamlStylishDiff' => [
+                $this->firstYamlFilePath,
+                $this->secondYamlFilePath,
+                'stylish',
+                $this->expectedStylishDiff
+            ],
+            'testYamlPlainDiff' => [
+                $this->firstYamlFilePath,
+                $this->secondYamlFilePath,
+                'plain',
+                $this->expectedPlainDiff],
+            'testYamlJsonDiff' => [
+                $this->firstYamlFilePath,
+                $this->secondYamlFilePath,
+                'json',
+                $this->expectedJsonDiff]
         ];
     }
 
     /**
+     * @param string $firstPath
+     * @param string $secondPath
+     * @param string $format
      * @param string $expected
-     * @param string $actual
      * @dataProvider additionProvider
+     * @throws \Exception
      */
-    public function testGenDiff(string $expected, string $actual): void
+    public function testGenDiff(string $firstPath, string $secondPath, string $format, string $expected): void
     {
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, genDiff($firstPath, $secondPath, $format));
     }
 }
