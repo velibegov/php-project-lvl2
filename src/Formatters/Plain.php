@@ -2,6 +2,8 @@
 
 namespace Differ\Differ\Plain;
 
+use Exception;
+
 /**
  * @param string|int|bool|null|object|array|float $value
  * @return string
@@ -19,6 +21,7 @@ function toString($value): string
  * @param array $differenceTree
  * @param array $parts
  * @return string
+ * @throws Exception
  */
 function format(array $differenceTree, array $parts = []): string
 {
@@ -40,9 +43,11 @@ function format(array $differenceTree, array $parts = []): string
                 $added = toString($value['value']);
                 $result = "Property '{$propertyName}' was added with value: {$added}";
                 break;
-            default:
+            case 'unmodified':
                 $result = "";
                 break;
+            default:
+                throw new Exception('Unknown value type ' . $value['type']);
         }
         return $result;
     }, $differenceTree);

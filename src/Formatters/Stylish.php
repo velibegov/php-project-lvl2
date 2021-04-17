@@ -21,7 +21,7 @@ function toString($value): string
  * @param int $positionModifier
  * @return string
  */
-function getIndent(int $depth, int $positionModifier): string
+function getIndent(int $depth, int $positionModifier = 0): string
 {
     return str_repeat(BASE_INDENT, $depth * 4 - $positionModifier);
 }
@@ -38,7 +38,7 @@ function stringifyValue($value, int $depth): string
     }
     $result = array_map(function ($key) use ($value, $depth): string {
         $stringifiedValue = stringifyValue($value->{$key}, $depth + 1);
-        return getIndent($depth, -4) . "{$key}: {$stringifiedValue}";
+        return getIndent($depth + 1) . "{$key}: {$stringifiedValue}";
     }, array_keys((array)$value));
     return "{\n" . implode("\n", $result) . "\n" . getIndent($depth, 0) . "}";
 }
@@ -69,9 +69,9 @@ function format(array $differenceTree, int $depth = 1): string
             case 'modified':
                 $oldValue = stringifyValue($value['old'], $depth);
                 $newValue = stringifyValue($value['new'], $depth);
-                $oldLine = getIndent($depth, 2) . '- ' . "{$value['key']}: $oldValue\n";
+                $oldLine = getIndent($depth, 2) . '- ' . "{$value['key']}: $oldValue";
                 $newLine = getIndent($depth, 2) . '+ ' . "{$value['key']}: $newValue";
-                return $oldLine . $newLine;
+                return $oldLine . "\n" . $newLine;
             default:
                 $formattedValue = stringifyValue($value['value'], $depth);
                 return getIndent($depth, 2) . $typeIndent . "{$value['key']}: $formattedValue";
