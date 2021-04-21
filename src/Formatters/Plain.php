@@ -26,12 +26,8 @@ function toString($value): string
 function format(array $differenceTree, array $parts = []): string
 {
     $mapped = array_map(
-    /**
-     * @param mixed $value
-     * @return string|null
-     * @throws Exception
-     */
-        function ($value) use ($parts) {
+        function ($value) use ($parts): string {
+            $result = '';
             $propertyNameParts = collect($parts);
             $merged = $propertyNameParts->merge($value['key']);
             $propertyName = implode('.', $merged->all());
@@ -51,7 +47,6 @@ function format(array $differenceTree, array $parts = []): string
                     $result = "Property '{$propertyName}' was added with value: {$added}";
                     break;
                 case 'unmodified':
-                    $result = null;
                     break;
                 default:
                     throw new Exception('Unknown value type ' . $value['type']);
