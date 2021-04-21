@@ -57,6 +57,8 @@ function format(array $differenceTree, array $parts = []): string
                     throw new Exception('Unknown value type ' . $value['type']);
             }
             return $result;
-        }, $differenceTree);
+        },
+        $differenceTree
+    );
     return implode("\n", array_values(array_filter($mapped)));
 }

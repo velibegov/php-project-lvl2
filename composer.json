@@ -5,7 +5,7 @@
   "require": {
     "docopt/docopt": "^1.0",
     "ext-json": "*",
-    "symfony/yaml": "3.4.x-dev",
+    "symfony/yaml": "*",
     "tightenco/collect": "8.34.0"
   },
   "license": "MIT",
