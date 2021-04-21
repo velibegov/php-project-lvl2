@@ -25,15 +25,13 @@ function fileRead(string $filePath): string
 }
 
 /**
- * @param string $filePath
+ * @param string $data
+ * @param string $dataType
  * @return \stdClass
  * @throws Exception
  */
-function getContent(string $filePath): \stdClass
+function dataParse(string $data, string $dataType): \stdClass
 {
-    $data = fileRead($filePath);
-    $dataType = pathinfo($filePath, PATHINFO_EXTENSION);
-
     switch ($dataType) {
         case 'json':
             $parsed = json_decode($data);
@@ -43,7 +41,19 @@ function getContent(string $filePath): \stdClass
             $parsed = Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP);
             break;
         default:
-            throw new Exception('Unsupported file extension ' . $dataType);
+            throw new Exception('Unsupported data type ' . $dataType);
     }
     return $parsed;
+}
+
+/**
+ * @param string $filePath
+ * @return \stdClass
+ * @throws Exception
+ */
+function getContent(string $filePath): \stdClass
+{
+    $data = fileRead($filePath);
+    $dataType = pathinfo($filePath, PATHINFO_EXTENSION);
+    return dataParse($data, $dataType);
 }

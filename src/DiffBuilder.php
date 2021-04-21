@@ -63,5 +63,8 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
             'type' => 'modified'
         ];
     }, $keys);
-    return arr_usort($differenceTree, fn($value1, $value2) => $value1['key'] <=> $value2['key']);
+    return collect($differenceTree)
+        ->sortBy([fn($value1, $value2) => $value1['key'] <=> $value2['key']])
+        ->values()
+        ->all();
 }

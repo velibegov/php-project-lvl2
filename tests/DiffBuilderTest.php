@@ -13,13 +13,15 @@ class DiffBuilderTest extends TestCase
      */
     public function additionProvider(): array
     {
-        $firstJsonFilePath = __DIR__ . '/fixtures/file1.json';
-        $secondJsonFilePath = __DIR__ . '/fixtures/file2.json';
-        $firstYamlFilePath = __DIR__ . '/fixtures/file1.yaml';
-        $secondYamlFilePath = __DIR__ . '/fixtures/file2.yaml';
-        $stylishDiffFilePath = __DIR__ . '/fixtures/stylishDiff';
-        $plainDiffFilePath = __DIR__ . '/fixtures/plainDiff';
-        $jsonDiffFilePath = __DIR__ . '/fixtures/jsonDiff';
+        $fixturesPath = __DIR__ . '/fixtures/';
+
+        $firstJsonFilePath = $fixturesPath . 'file1.json';
+        $secondJsonFilePath = $fixturesPath . 'file2.json';
+        $firstYamlFilePath = $fixturesPath . 'file1.yaml';
+        $secondYamlFilePath = $fixturesPath . 'file2.yaml';
+        $stylishDiffFilePath = $fixturesPath . 'stylishDiff';
+        $plainDiffFilePath = $fixturesPath . 'plainDiff';
+        $jsonDiffFilePath = $fixturesPath . 'jsonDiff';
 
         $expectedStylishDiff = file_get_contents($stylishDiffFilePath) ?: '';
         $expectedPlainDiff = file_get_contents($plainDiffFilePath) ?: '';

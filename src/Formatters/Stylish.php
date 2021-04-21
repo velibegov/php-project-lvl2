@@ -2,6 +2,8 @@
 
 namespace Differ\Differ\Stylish;
 
+use Exception;
+
 const BASE_INDENT = ' ';
 
 /**
@@ -40,31 +42,22 @@ function stringifyValue($value, int $depth): string
         $stringifiedValue = stringifyValue($value->{$key}, $depth + 1);
         return getIndent($depth + 1) . "{$key}: {$stringifiedValue}";
     }, array_keys((array)$value));
-    return "{\n" . implode("\n", $result) . "\n" . getIndent($depth, 0) . "}";
+    return "{\n" . implode("\n", $result) . "\n" . getIndent($depth) . "}";
 }
 
 /**
  * @param array $differenceTree
  * @param int $depth
  * @return string
+ * @throws Exception
  */
 function format(array $differenceTree, int $depth = 1): string
 {
     $lines = array_map(function ($value) use ($depth): string {
         switch ($value['type']) {
-            case 'added':
-                $typeIndent = '+ ';
-                break;
-            case 'removed':
-                $typeIndent = '- ';
-                break;
-            default:
-                $typeIndent = '  ';
-        }
-        switch ($value['type']) {
             case 'parent':
                 $children = format($value['children'], $depth + 1);
-                return getIndent($depth, 2) . $typeIndent .
+                return getIndent($depth, 2) . '  ' .
                     "{$value['key']}: " . $children;
             case 'modified':
                 $oldValue = stringifyValue($value['old'], $depth);
@@ -72,11 +65,19 @@ function format(array $differenceTree, int $depth = 1): string
                 $oldLine = getIndent($depth, 2) . '- ' . "{$value['key']}: $oldValue";
                 $newLine = getIndent($depth, 2) . '+ ' . "{$value['key']}: $newValue";
                 return $oldLine . "\n" . $newLine;
-            default:
+            case 'unmodified':
                 $formattedValue = stringifyValue($value['value'], $depth);
-                return getIndent($depth, 2) . $typeIndent . "{$value['key']}: $formattedValue";
+                return getIndent($depth) . "{$value['key']}: $formattedValue";
+            case 'added':
+                $formattedValue = stringifyValue($value['value'], $depth);
+                return getIndent($depth, 2) . '+ ' . "{$value['key']}: $formattedValue";
+            case 'removed':
+                $formattedValue = stringifyValue($value['value'], $depth);
+                return getIndent($depth, 2) . '- ' . "{$value['key']}: $formattedValue";
+            default:
+                throw new Exception('Unsupported value type ' . $value['type']);
         }
     }, $differenceTree);
     $result = implode("\n", $lines);
-    return "{\n{$result}\n" . getIndent($depth, 4) . "}";
+    return "{\n{$result}\n" . getIndent($depth - 1) . "}";
 }
