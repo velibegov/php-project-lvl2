@@ -23,7 +23,7 @@ function formatDifference(string $formatterName, array $differenceTree): string
             $formatted = Stylish\format($differenceTree);
             break;
         default:
-            throw new Exception('Unknown format ' . $formatterName);
+            throw new Exception("Unknown format $formatterName");
     }
     return $formatted;
 }

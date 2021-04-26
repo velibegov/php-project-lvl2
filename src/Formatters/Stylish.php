@@ -20,18 +20,30 @@ function toString($value): string
 
 /**
  * @param int $depth
- * @param int $positionModifier
+ * @param string $indentModifier
  * @return string
+ * @throws Exception
  */
-function getIndent(int $depth, int $positionModifier = 0): string
+function getIndent(int $depth, string $indentModifier): string
 {
-    return str_repeat(BASE_INDENT, $depth * 4 - $positionModifier);
+    switch ($indentModifier) {
+        case 'bigIndent':
+            $indent = str_repeat(BASE_INDENT, $depth * 4);
+            break;
+        case 'smallIndent':
+            $indent = str_repeat(BASE_INDENT, $depth * 4 - 2);
+            break;
+        default:
+            throw new Exception("Unsupported indent modifier $indentModifier");
+    }
+    return $indent;
 }
 
 /**
  * @param string|int|bool|null|object|array|float $value
  * @param int $depth
  * @return string
+ * @throws Exception
  */
 function stringifyValue($value, int $depth): string
 {
@@ -40,9 +52,9 @@ function stringifyValue($value, int $depth): string
     }
     $result = array_map(function ($key) use ($value, $depth): string {
         $stringifiedValue = stringifyValue($value->{$key}, $depth + 1);
-        return getIndent($depth + 1) . "{$key}: {$stringifiedValue}";
+        return getIndent($depth + 1, 'bigIndent') . "{$key}: {$stringifiedValue}";
     }, array_keys((array)$value));
-    return "{\n" . implode("\n", $result) . "\n" . getIndent($depth) . "}";
+    return "{\n" . implode("\n", $result) . "\n" . getIndent($depth, 'bigIndent') . "}";
 }
 
 /**
@@ -57,27 +69,27 @@ function format(array $differenceTree, int $depth = 1): string
         switch ($value['type']) {
             case 'parent':
                 $children = format($value['children'], $depth + 1);
-                return getIndent($depth, 2) . '  ' .
+                return getIndent($depth, 'smallIndent') . '  ' .
                     "{$value['key']}: " . $children;
             case 'modified':
                 $oldValue = stringifyValue($value['old'], $depth);
                 $newValue = stringifyValue($value['new'], $depth);
-                $oldLine = getIndent($depth, 2) . '- ' . "{$value['key']}: $oldValue";
-                $newLine = getIndent($depth, 2) . '+ ' . "{$value['key']}: $newValue";
+                $oldLine = getIndent($depth, 'smallIndent') . '- ' . "{$value['key']}: $oldValue";
+                $newLine = getIndent($depth, 'smallIndent') . '+ ' . "{$value['key']}: $newValue";
                 return $oldLine . "\n" . $newLine;
             case 'unmodified':
                 $formattedValue = stringifyValue($value['value'], $depth);
-                return getIndent($depth) . "{$value['key']}: $formattedValue";
+                return getIndent($depth, 'bigIndent') . "{$value['key']}: $formattedValue";
             case 'added':
                 $formattedValue = stringifyValue($value['value'], $depth);
-                return getIndent($depth, 2) . '+ ' . "{$value['key']}: $formattedValue";
+                return getIndent($depth, 'smallIndent') . '+ ' . "{$value['key']}: $formattedValue";
             case 'removed':
                 $formattedValue = stringifyValue($value['value'], $depth);
-                return getIndent($depth, 2) . '- ' . "{$value['key']}: $formattedValue";
+                return getIndent($depth, 'smallIndent') . '- ' . "{$value['key']}: $formattedValue";
             default:
-                throw new Exception('Unsupported value type ' . $value['type']);
+                throw new Exception("Unsupported value type {$value['type']}");
         }
     }, $differenceTree);
     $result = implode("\n", $lines);
-    return "{\n{$result}\n" . getIndent($depth - 1) . "}";
+    return "{\n{$result}\n" . getIndent($depth - 1, 'bigIndent') . "}";
 }

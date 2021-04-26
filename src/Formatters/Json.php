@@ -2,10 +2,12 @@
 
 namespace Differ\Differ\Json;
 
+use Exception;
+
 /**
  * @param array $differenceTree
  * @return string
- * @throws \Exception
+ * @throws Exception
  */
 function format(array $differenceTree): string
 {
@@ -13,6 +15,6 @@ function format(array $differenceTree): string
     if (is_string($encoded)) {
         return $encoded;
     } else {
-        throw new \Exception('Impossible to encode into JSON');
+        throw new Exception("Impossible to encode into JSON");
     }
 }

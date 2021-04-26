@@ -45,13 +45,12 @@ function format(array $differenceTree, array $parts = []): string
                 $result = "Property '{$propertyName}' was added with value: {$added}";
                 break;
             case 'unmodified':
-                $result = ''; //must return string NOT null
+                $result = '';
                 break;
             default:
-                throw new Exception('Unknown value type ' . $value['type']);
+                throw new Exception("Unknown value type {$value['type']}");
         }
         return $result;
-    },
-        $differenceTree);
+    }, $differenceTree);
     return implode("\n", array_values(array_filter($mapped)));
 }
