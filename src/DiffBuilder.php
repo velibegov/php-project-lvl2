@@ -2,6 +2,9 @@
 
 namespace Differ\Differ;
 
+use Exception;
+use stdClass;
+
 /**
  * @param string $pathToFirstFile
  * @param string $pathToSecondFile
@@ -67,4 +70,35 @@ function makeDifferenceTree(object $firstContent, object $secondContent): array
         ->sortBy([fn($value1, $value2) => $value1['key'] <=> $value2['key']])
         ->values()
         ->all();
+}
+
+/**
+ * @param string $filePath
+ * @return string
+ * @throws Exception
+ */
+function readFile(string $filePath): string
+{
+    if (file_exists($filePath)) {
+        $data = file_get_contents($filePath);
+    } else {
+        throw new Exception('File not exists ' . $filePath);
+    }
+    if (is_string($data)) {
+        return $data;
+    } else {
+        throw new Exception('Incorrect file content ' . $filePath);
+    }
+}
+
+/**
+ * @param string $filePath
+ * @return stdClass
+ * @throws Exception
+ */
+function getContent(string $filePath): stdClass
+{
+    $data = readFile($filePath);
+    $dataType = pathinfo($filePath, PATHINFO_EXTENSION);
+    return parseData($data, $dataType);
 }
