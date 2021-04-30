@@ -12,7 +12,7 @@ use Symfony\Component\Yaml\Yaml;
  * @return stdClass
  * @throws Exception
  */
-function parseData(string $data, string $dataType): stdClass
+function parse(string $data, string $dataType): object
 {
     switch ($dataType) {
         case 'json':

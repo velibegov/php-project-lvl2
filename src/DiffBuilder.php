@@ -100,5 +100,5 @@ function getContent(string $filePath): stdClass
 {
     $data = readFile($filePath);
     $dataType = pathinfo($filePath, PATHINFO_EXTENSION);
-    return parseData($data, $dataType);
+    return parse($data, $dataType);
 }
